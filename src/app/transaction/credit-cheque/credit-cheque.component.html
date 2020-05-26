@@ -1,0 +1,120 @@
+<div class="card nopadding mt-3 mb-4">
+    <div class="card-header  bg-info text-center text-light">
+        <strong>Credit Using Cheque</strong>
+    </div>
+    <div class="card-body mt-1">
+
+        <form (ngSubmit)="onSubmit()" #creditChequeForm="ngForm">
+
+            <div class="form-group">
+                <label for="payeeAccountNumber">Payee Account Number</label>
+                <input type="text" class="form-control" title="Numeric account Id" pattern="[0-9]*" minlength=10 maxlength="15" id="payeeAccountNumber" required [(ngModel)]="model.payeeAccountNumber" name="payeeAccountNumber" #payeeAccountNumber="ngModel">
+                <div *ngIf="!payeeAccountNumber.value && payeeAccountNumber.touched" class="alert alert-danger">
+                    Payee Account Id is required
+                </div>
+                <div *ngIf="payeeAccountNumber.invalid && payeeAccountNumber.touched && payeeAccountNumber.value" class="alert alert-danger">
+                    Payee Account Id should only contain only digits
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="beneficiaryAccountNumber">Beneficiary Account Number</label>
+                <input type="text" class="form-control" title="Numeric account Id" pattern="[0-9]*" minlength="12" maxlength="12" id="beneficiaryAccountNumber" required [(ngModel)]="model.beneficiaryAccountNumber" name="beneficiaryAccountNumber" #beneficiaryAccountNumber="ngModel">
+                <div *ngIf="!beneficiaryAccountNumber.value && beneficiaryAccountNumber.touched" class="alert alert-danger">
+                    Beneficiary Account number is required
+                </div>
+                <div *ngIf="beneficiaryAccountNumber.invalid && beneficiaryAccountNumber.touched && beneficiaryAccountNumber.value" class="alert alert-danger">
+                    Beneficiary Account numbrt should only contain only 12 digits
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="creditChequeNumber">Cheque Number</label>
+                <input type="text" class="form-control" title="Numeric account Id" pattern="[0-9]*" minlength="6" maxlength="6" id="creditChequeNumber" required [(ngModel)]="model.creditChequeNumber" name="creditChequeNumber" #creditChequeNumber="ngModel">
+                <div *ngIf="!creditChequeNumber.value && creditChequeNumber.touched" class="alert alert-danger">
+                    Cheque number is required
+                </div>
+                <div *ngIf="beneficiaryAccountNumber.invalid && beneficiaryAccountNumber.touched && beneficiaryAccountNumber.value" class="alert alert-danger">
+                    Cheque number should only contain only 6 digits
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="payeeName">Payee Name</label>
+                <input type="text" class="form-control" title="Numeric account Id" pattern="[a-zA-Z ]*" id="payeeName" required [(ngModel)]="model.payeeName" name="payeeName" #payeeName="ngModel">
+                <div *ngIf="!payeeName.value && payeeName.touched" class="alert alert-danger">
+                    Payee name is required
+                </div>
+                <div *ngIf="payeeName.invalid && payeeName.touched && payeeName.value" class="alert alert-danger">
+                    Payee name should only contain alphabets
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="creditChequeAmount">Transaction Amount</label>
+                <input type="number" class="form-control" title="Numeric account Id" pattern="[0-9]*" id="creditChequeAmount" required [(ngModel)]="model.creditChequeAmount" name="creditChequeAmount" #creditChequeAmount="ngModel">
+                <div *ngIf="!creditChequeAmount.value && creditChequeAmount.touched" class="alert alert-danger">
+                    Transaction Amount is required
+                </div>
+                <div *ngIf="creditChequeAmount.invalid && creditChequeAmount.touched && creditChequeAmount.value" class="alert alert-danger">
+                    Transaction Amount should only contain alphabets
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="creditChequeIssueDate">Cheque Issue Date</label>
+                <input type="date" class="form-control" title="Numeric account Id" id="creditChequeIssueDate" required [(ngModel)]="model.creditChequeIssueDate" name="creditChequeIssueDate" #creditChequeIssueDate="ngModel">
+                <div *ngIf="!creditChequeIssueDate.value && creditChequeIssueDate.touched" class="alert alert-danger">
+                    Date is required
+                </div>
+                <div *ngIf="creditChequeAmount.invalid && creditChequeAmount.touched && creditChequeAmount.value" class="alert alert-danger">
+                    Invalid date
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="bankName">Bank Name</label>
+                <select id="inputBank" name="bankName" class="form-control " id="bankName" required [(ngModel)]="model.bankName" #bankName="ngModel">
+                    <option value="PECUNIA">PECUNIA</option>
+                    <option value="ICICI">ICICI</option>
+                    <option value="HDFC">HDFC</option>
+                    <option value="AXIS">AXIS</option>
+                    <option value="KOTAK">KOTAK</option>
+                </select>
+                <div *ngIf="!bankName.value && bankName.touched" class="alert alert-danger">
+                    Bank name is required
+                </div>
+                <div *ngIf="bankName.invalid && bankName.touched && bankName.value" class="alert alert-danger">
+                    Invalid bank Name
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="payeeIfsc">IFSC </label>
+                <input type="text" class="form-control" title="Numeric account Id" minlength="11" maxlength="11" pattern="[A-Z]{4}[0-9]{7}" id="payeeIfsc" required [(ngModel)]="model.payeeIfsc" name="payeeIfsc" #payeeIfsc="ngModel">
+                <div *ngIf="!payeeIfsc.value && payeeIfsc.touched" class="alert alert-danger">
+                    IFSC is required
+                </div>
+                <div *ngIf="payeeIfsc.invalid && payeeIfsc.touched && payeeIfsc.value" class="alert alert-danger">
+                    Invalid IFSC number
+                </div>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <button type="submit " class="btn btn-info " [disabled]="!creditChequeForm.form.valid ">Submit</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div *ngIf="isProcessing" class="spinner-container d-flex align-items-center justify-content-center flex-column">
+    <div class="spinner-border text-info" role="status">
+        <!-- <span class="sr-only">Loading...</span> -->
+    </div>
+
+</div>
+
+<div *ngIf="showToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+    <div class="card text-center m-3">
+        <div class="card-header">
+            Cheque Transaction
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{dataResponse["message"]}}</p>
+            <button (click)="closeToast()" class="btn btn-primary text-white">Close</button>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

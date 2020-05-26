@@ -1,0 +1,178 @@
+<div [hidden]="submitted">
+  <div class="card nopadding mt-3">
+    <!-- <h3 class = "style"></h3> -->
+    <div class="card-header  bg-info text-center text-light">
+      <strong>Loan Disbursal</strong>
+    </div>
+    <form #loanDisbursalForm="ngForm">
+
+      <div class="card-body  mt-1">
+        <div class="form-group">
+          <label for="show-loan-requests">Show Loan Requests</label>
+
+          <select required name="show-loan-requests" #name="ngModel" class="form-control" id="show-loan-requests"
+            required [(ngModel)]="menuOption">
+            <option *ngFor="let request of loanDataRetrievals">{{request}}</option>
+          </select>
+          <div *ngIf="!name.value && name.touched" class="alert alert-danger ">
+            Field required
+        </div>
+
+          
+        </div>
+
+
+        <div class="d-flex justify-content-center ">
+          <br><button type="submit" (click)="onClick()" class="btn btn-info" [disabled]="!loanDisbursalForm.form.valid ">Submit</button>
+        </div>
+
+        <div class="form-group">
+          <br>
+          <div class="d-flex justify-content-center ">
+            <br><button type="submit" (click)="onSubmit()" class="btn btn-info">Show Loan Disbursed Data</button>
+          </div>
+        </div>
+
+
+        <div class="form-group">
+
+          <div class="d-flex justify-content-center ">
+            <button type="submit" (click)="onClicking()" class="btn btn-info">Update Account Balance</button>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br><br>
+<div [hidden]="!submitted">
+  <div class="container" *ngIf="dataReceived">
+    <h2>Loan Disbursal</h2>
+    <button type="submit" (click)="close()" class="btn btn-info">Close</button>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered" id="showcase-fixedcolumns" datatable=""
+        cellspacing="10" cellpadding="10" border="1" width=1200 align="center">
+        <thead class="thead-dark">
+          <tr align="center">
+            <th>Loan Disbursal Id</th>
+            <th>Account Id </th>
+            <th>Loan Id</th>
+            <th>Disbursed Amount</th>
+            <th>Due Amount</th>
+            <th>Number Of Emi To Be Paid</th>
+            <th>Loan Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trans of dataResponse">
+            <th>{{trans.loanDisbursalId}}</th>
+            <th>{{trans.loanId}}</th>
+            <th>{{trans.accountId}}</th>
+            <th>{{trans.disbursedAmount}}</th>
+            <th>{{trans.dueAmount}}</th>
+            <th>{{trans.numberOfEmiToBePaid}}</th>
+            <th>{{trans.loanType}}</th>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="d-flex justify-content-center ">
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!submitted">
+  <div class="container" *ngIf="dataReceived1">
+    <h2>Loan Requests</h2>
+    <button type="submit" (click)="close1()" class="btn btn-info">Close</button>
+    <div class="table-responsive">
+
+      <table class="table table-striped table-hover table-bordered" id="showcase-fixedcolumns" datatable=""
+        cellspacing="10" cellpadding="10" border="1" width=1200 align="center">
+        <thead class="thead-dark">
+          <tr align="center">
+            <th>Loan Id</th>
+            <th>Account Id</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Tenure</th>
+            <th>ROI</th>
+            <th>EMI</th>
+            <th>Credit Score</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trans of dataResponse1">
+            <th>{{trans.loanId}}</th>
+            <th>{{trans.accountId}}</th>
+            <th>{{trans.amount}}</th>
+            <th>{{trans.type}}</th>
+            <th>{{trans.tenure}}</th>
+            <th>{{trans.roi}}</th>
+            <th>{{trans.emi}}</th>
+            <th>{{trans.creditScore}}</th>
+
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="d-flex justify-content-center ">
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!submitted">
+  <div class="container" *ngIf="dataReceived2">
+    <h2>Balance Updations</h2>
+    <button type="submit" (click)="close2()" class="btn btn-info">Close</button>
+    <div class="table-responsive">
+
+      <table class="table table-striped table-hover table-bordered" id="showcase-fixedcolumns" datatable=""
+        cellspacing="10" cellpadding="10" border="1" width=1200 align="center">
+        <thead class="thead-dark">
+          <tr align="center">
+            <th>Report</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trans of dataResponse2">
+            <th>{{trans}}</th>
+
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <div class="d-flex justify-content-center ">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="isProcessing" class="spinner-container d-flex align-items-center justify-content-center flex-column">
+  <div class="spinner-border text-info" role="status">
+    <!-- <span class="sr-only">Loading...</span> -->
+  </div>
+
+</div>
+
+<div *ngIf="showToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+  <div class="card text-center m-4 offset-md-4">
+    <div class="card-header">
+      <b>Loan Disbursal</b>
+    </div>
+    <div class="card-body">
+      <p class="card-text">{{dataResponse["message"]}}</p>
+      <button (click)="closeToast()" class="btn btn-primary text-white">Close</button>
+    </div>
+  </div>
+</div>

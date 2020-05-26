@@ -1,0 +1,107 @@
+<div [hidden]="submitted" class="card nopadding mt-3  mb-4">
+  <div class="card-header bg-info text-center text-light">
+    <strong>Passbook Update</strong>
+  </div>
+
+  <div>
+    <div class="card-body mt-1">
+      <form (ngSubmit)="onSubmit()" #passbook="ngForm">
+        <div class="form-group col-md-12 ">
+          <label for="AccountID">Account ID</label>
+          <input type="text" class="form-control" title="Enter Account ID" pattern="[0-9]*" minlength="12"
+            maxlength="12" id="AccountID" required [(ngModel)]="model.accountID" name="Account ID" #accountID="ngModel">
+          <div *ngIf="accountID.invalid && (accountID.touched || accountID.dirty)" class="alert alert-danger ">
+            <div *ngIf="accountID.errors.required">
+              Account ID is required.
+            </div>
+            <div *ngIf="accountID.errors.minlength">
+              Account ID must be 12 characters long.
+            </div>
+            <div *ngIf="accountID.errors.pattern">
+              Invalid Format. Only numbers allowed.
+            </div>
+          </div>
+          <br>
+          <div class="d-flex justify-content-center ">
+            <button type="submit " class="btn btn-info " [disabled]="!passbook.form.valid ">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div [hidden]="!submitted" class="card table mt-3 mb-4">
+  <div class="card-header bg-info text-light">
+    <strong class="d-flex justify-content-center ">Passbook Details</strong>
+    <button (click)="onClose()" type="button" class="btn btn-info mr-2 " id="close-btn">Print</button>
+  </div>
+  
+  <br>
+  <div class="container bg-light p-0 " *ngIf="dataReceived">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered" id="showcase-fixedcolumns" datatable=""
+        cellspacing="20" cellpadding="10" width=1200 align="center">
+        <thead class="bg-info text-white th">
+          <tr align="center">
+            <th>Id</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Type</th>
+            <th>Option</th>
+            <th>Cheque ID</th>
+            <th>Closing Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let trans of dataResponse">
+            <td>{{trans.id}}</td>
+            <td>{{trans.transDate}}</td>
+            <td>{{trans.amount}}</td>
+            <td>{{trans.transFrom}}</td>
+            <td>{{trans.transTo}}</td>
+            <td>{{trans.type}}</td>
+            <td>{{trans.option}}</td>
+            <td>{{trans.chequeId}}</td>
+            <td>{{trans.closingBalance}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br>
+</div>
+
+<div *ngIf="isProcessing" class="spinner-container d-flex align-items-center justify-content-center flex-column">
+  <div class="spinner-border text-info" role="status">
+  </div>
+
+</div>
+
+<div *ngIf="showToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+  <div class="card text-center m-3">
+    <div class="card-header">
+      <b>Passbook</b>
+    </div>
+    <div class="card-body">
+
+      <p class="card-text">{{dataResponse["message"]}}</p>
+      <button (click)="closeToast()" class="btn btn-info text-white">Close</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="printToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+  <div class="card text-center m-3">
+    <div class="card-header">
+      <b>Passbook</b>
+    </div>
+    <div class="card-body">
+
+      <p class="card-text">Passbook printed successfully.</p>
+      <button (click)="showPrint()" class="btn btn-info text-white">Close</button>
+    </div>
+  </div>
+</div>

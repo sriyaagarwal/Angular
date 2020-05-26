@@ -1,0 +1,97 @@
+<div class="card nopadding mt-3  mb-4">
+    <div class="card-header  bg-info text-center text-light">
+        <strong>Customer Address Updation Form</strong>
+    </div>
+    <div class="card-body  mt-1">
+        <form (ngSubmit)="onSubmit()" #updateAddressForm="ngForm">
+            <div class="form-group col-md-12">
+                <label for="accountId">Account Id</label>
+                <input type="text" class="form-control" title="12 digit account id" pattern="[0-9]*" minlength=12 maxlength="12" id="accountId" required [(ngModel)]="account.id" name="accountId" #accountId="ngModel">
+                <div *ngIf="!accountId.value && accountId.touched" class="alert alert-danger">
+                    Account Id is required
+                </div>
+                <div *ngIf="accountId.invalid && accountId.dirty && accountId.value" class="alert alert-danger">
+                    Invalid Account ID
+                </div>
+
+                <label for="line1">Address Line 1</label>
+                <input type="text" class="form-control" title="Only alphabets, numbers, /,(,',) and - allowed" pattern="[A-Za-z0-9\s/'()-]*" id="line1" required [(ngModel)]="address.line1" name="line1" #line1="ngModel">
+                <div *ngIf="!line1.value && line1.touched" class="alert alert-danger">
+                    Address Line 1 is required
+                </div>
+                <div *ngIf="line1.invalid && line1.dirty && line1.value" class="alert alert-danger">
+                    Only alphabets, numbers, /, ', (,) and - allowed
+                </div>
+
+                <label for="line2">Address Line 2</label>
+                <input type="text" class="form-control" title="Only alphabets, numbers, /,(,',) and - allowed" pattern="[A-Za-z0-9\s/'()-]*" id="line2" required [(ngModel)]="address.line2" name="line2" #line2="ngModel">
+                <div *ngIf="!line2.value && line2.touched" class="alert alert-danger">
+                    Address Line 2 is required
+                </div>
+                <div *ngIf="line2.invalid && line2.dirty && line2.value" class="alert alert-danger">
+                    Only alphabets, numbers, /, ', (,) and - allowed
+                </div>
+
+                <label for="city">City</label>
+                <input type="text" class="form-control" title="City should only contain alphabets" pattern="[a-zA-Z\s]*" id="city" required [(ngModel)]="address.city" name="city" #city="ngModel">
+                <div *ngIf="!city.value && city.touched" class="alert alert-danger">
+                    City is required
+                </div>
+                <div *ngIf="city.invalid && city.dirty && city.value" class="alert alert-danger">
+                    Only alphabets allowed
+                </div>
+
+                <label for="state">State</label>
+                <input type="text" class="form-control" title="State should only contain alphabets" pattern="[a-zA-Z\s]*" id="state" required [(ngModel)]="address.state" name="state" #state="ngModel">
+                <div *ngIf="!state.value && state.touched" class="alert alert-danger">
+                    State is required
+                </div>
+                <div *ngIf="state.invalid && state.dirty && state.value" class="alert alert-danger">
+                    Only alphabets allowed
+                </div>
+
+                <label for="country">Country</label>
+                <input type="text" class="form-control" title="Country should only contain alphabets" pattern="[a-zA-Z\s]*" id="country" required [(ngModel)]="address.country" name="country" #country="ngModel">
+                <div *ngIf="!country.value && country.touched" class="alert alert-danger">
+                    Country is required
+                </div>
+                <div *ngIf="country.invalid && country.dirty && country.value" class="alert alert-danger">
+                    Only alphabets allowed
+                </div>
+
+                <label for="zipcode">Zipcode</label>
+                <input type="text" class="form-control" title="Zipcode should only contain 6 digits" pattern="[0-9]*" minlength=6 maxlength=6 id="zipcode" required [(ngModel)]="address.zipcode" name="zipcode" #zipcode="ngModel">
+                <div *ngIf="!zipcode.value && zipcode.touched" class="alert alert-danger">
+                    Zipcode is required
+                </div>
+                <div *ngIf="zipcode.invalid && zipcode.dirty && zipcode.value" class="alert alert-danger">
+                    Invalid Zipcode
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-info" [disabled]="!updateAddressForm.form.valid ">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div *ngIf="isProcessing" class="spinner-container d-flex align-items-center justify-content-center flex-column">
+    <div class="spinner-border text-info" role="status">
+        <!-- <span class="sr-only">Loading...</span> -->
+    </div>
+
+</div>
+
+<div *ngIf="showToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+    <div class="card text-center m-3">
+        <div class="card-header">
+            <b>Update Customer Address</b>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{dataResponse["message"]}}</p>
+            <button (click)="closeToast()" class="btn btn-primary text-white">Close</button>
+        </div>
+    </div>
+</div>
+<!-- <app-footer></app-footer> -->

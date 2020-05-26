@@ -1,0 +1,66 @@
+<!-- <app-nav></app-nav> -->
+
+
+<div class="card nopadding mt-3 mb-4">
+
+
+    <!-- <h3 class = "style"></h3> -->
+    <div class="card-header bg-info text-center text-light">
+        <strong>Credit With Slip</strong>
+    </div>
+
+
+
+    <div class="card-body mt-1">
+        <form (ngSubmit)="onSubmit()" #creditSlipForm="ngForm">
+
+            <div class="form-group ">
+                    
+                <label for="accountId">Account Id</label>
+                <input type="text" class="form-control" title="12 digit account Id" pattern="[0-9]*" minlength=12
+                    maxlength="12" id="accountId" required [(ngModel)]="model.accountNumber" name="accountId"
+                    #accountId="ngModel">
+                <div *ngIf="!accountId.value && accountId.touched" class="alert alert-danger">
+                    Account Id is required
+                </div>
+                <div *ngIf="accountId.invalid && accountId.touched && accountId.value" class="alert alert-danger">
+                    Account Id should only consists 12 digits
+                </div>
+                
+                <label for="Amount">Amount</label>
+                <input type="number" class="form-control" title="Amount" id="amount" pattern="[0-9]*" min="0" required
+                    [(ngModel)]="model.creditSlipAmount " name="amount" #amount="ngModel" min="100" max="100000">
+                <div *ngIf="!amount.value && amount.touched" class="alert alert-danger ">
+                    Amount is required
+                </div>
+                <div *ngIf="amount.invalid && amount.dirty" class="alert alert-danger ">
+                    Amount invalid
+                </div><br>
+                <div class="d-flex justify-content-center ">
+                    <button type="submit " class="btn btn-info "
+                        [disabled]="!creditSlipForm.form.valid ">Submit</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div *ngIf="isProcessing" class="spinner-container d-flex align-items-center justify-content-center flex-column">
+    <div class="spinner-border text-info" role="status">
+        <!-- <span class="sr-only">Loading...</span> -->
+    </div>
+
+</div>
+
+<div *ngIf="showToast" class="spinner-container d-flex align-items-center justify-content-center flex-column ">
+    <div class="card text-center m-3">
+        <div class="card-header">
+            <b>Credit Using Slip</b>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{dataResponse["message"]}}</p>
+            <button (click)="closeToast()" class="btn btn-primary text-white">Close</button>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
